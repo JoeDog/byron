@@ -242,6 +242,8 @@ public class GameView extends AbstractView implements MouseListener {
 
   private class Square extends Canvas {
     private int   id;
+    private int   wr     = 0;
+    private int   hr     = 0;
     private int   winner = 0;
     private int   value  = 0;
     private Color color  = Color.BLACK;
@@ -249,6 +251,8 @@ public class GameView extends AbstractView implements MouseListener {
 
     public Square(int id) {
       this.id = id;
+      this.wr = -8 + (int)(Math.random()*2);
+      this.hr =  2 + (int)(Math.random()*6);
       this.setBackground(Color.LIGHT_GRAY);
     }
 
@@ -272,7 +276,6 @@ public class GameView extends AbstractView implements MouseListener {
     }
 
     public void setColor (Color color) {
-      // check the value to guard against race conditions
       if (this.value == 0) {
         this.color = Color.BLACK;
       } else {
@@ -282,16 +285,16 @@ public class GameView extends AbstractView implements MouseListener {
 
     public void paint(Graphics g) {
       Graphics2D g2 = (Graphics2D)g;
-      int w = this.getWidth();
-      int h = this.getHeight();
+      int w   = this.getWidth();
+      int h   = this.getHeight();
       Font font = new Font("Helvetica", Font.BOLD, 36);
       g2.setFont(font);
       g2.setColor(color);
       if (value == 1) {
-        g2.drawString("X", (w/2), (h/2));
+        g2.drawString("X", (w/2)+this.wr, (h/2)+this.hr);
       }
       if (value == 2) {
-        g2.drawString("0", (w/2), (h/2));
+        g2.drawString("0", (w/2)+this.wr, (h/2)+this.hr);
       }
     }
   }
