@@ -19,7 +19,7 @@
   <target name="compile">
     <mkdir dir="${build.dir}" />
     <javac debug="true" includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}">
-      <compilerarg value="-Xlint"/>
+      <!-- <compilerarg value="-Xlint"/> -->
       <classpath refid="classpath" />
       <include name="**/*.java"/>
     </javac>        
