@@ -19,7 +19,8 @@ That was a "computer" constructed of match boxes which was capable of "learning"
 Tic Tac Toe. http://en.wikipedia.org/wiki/Donald_Michie
 
 The second engine is based on Minimax which is a decision theory concept designed
-to MINImize a possible loss for a MAXimum loss scenario.
+to MINImize a possible loss for a MAXimum loss scenario. 
+http://en.wikipedia.org/wiki/Minimax
 
 Of the two, Minimax consistently plays smarter Tic Tac Toe but it's incapable
 of "learning." It plays its first game as well as its last. M.E.N.A.C.E., on 
@@ -27,4 +28,15 @@ the other hand, starts dumb and gets smarter. It's rewarded for winning behavior
 and punished for losing behavior. 
 
 M.E.N.A.C.E. generally provides a more enjoyable byron experience.
+
+Requirements 
+
+Byron requires java 1.6. The game itself is bundled in byron.jar. On most 
+platforms, you should be able to double-click the file in order to play the 
+game. If java is not associated with jar files on your computer, you can 
+play the game with the following command:  java -jar byron.jar
+
+
+
+
 

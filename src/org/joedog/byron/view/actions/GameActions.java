@@ -19,10 +19,14 @@ public class GameActions {
       return new ExitAction(controller);
     else if (item.equals("Scores"))
       return new ScoresAction(controller);
-    else if (item.equals("Pupil"))
+    else if (item.equals("M.E.N.A.C.E."))
       return new EngineAction(controller, Engine.MENACE);
-    else if (item.equals("Guru"))
+    else if (item.equals("Minimax"))
       return new EngineAction(controller, Engine.MINIMAX);
+    else if (item.equals("Help"))
+      return new HelpAction();
+    else if (item.equals("About"))
+      return new AboutAction();
     else 
       return null;
   }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class HighScores extends ArrayList {
-  private final static int LIMIT = 9;
+  private final static int LIMIT     = 9;
   static final long serialVersionUID = -3611946473283033478L;
 
   public HighScores () {

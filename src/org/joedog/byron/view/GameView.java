@@ -73,6 +73,7 @@ public class GameView extends AbstractView implements MouseListener {
       }
     } 
     resetAction.setEnabled(false);
+    score.setBonus(9);
     clock.stop();
     clock.start();
   }

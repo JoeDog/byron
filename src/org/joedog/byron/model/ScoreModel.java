@@ -41,7 +41,11 @@ public class ScoreModel extends AbstractModel {
   public void setScore (Data data) {
     double score;
     if (data.getResult() == GameController.XWIN) {
-      score         = (data.getTime()*0.25);
+      if (data.getMarks() < 7) { 
+        score = (data.getTime()*0.50);
+      } else {
+        score = (data.getTime()*0.25);
+      }
       this.xscore  += score;
       this.newlife += score;
       if ((this.newlife >= 25) && (this.lives < 5)) {

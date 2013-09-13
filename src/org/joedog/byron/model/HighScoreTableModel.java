@@ -13,20 +13,24 @@ import javax.swing.table.*;
 public class HighScoreTableModel extends AbstractTableModel {
   private String[]   headers = {"Name", "Score"};
   private File       file;
+  private String     path;
   private HighScores scores; 
   static final long serialVersionUID = -3611946473283033478L;
 
   public HighScoreTableModel (double score) {
     AccessController.doPrivileged(new PrivilegedAction<Object>() {
       public Object run() {
-        String path = System.getProperty("user.home") + File.separator + ".byron.score";
-        file   = new File(path);
+        path = System.getProperty("user.home") + File.separator + ".byron.score";
+        file = new File(path);
         return null;
       }
     });
+    System.out.println(path);
     try {
       scores = this.read();
-    } catch (Exception e) {} 
+    } catch (Exception e) {
+      e.printStackTrace();
+    } 
     if ((score > 0.0) && (scores.isHighScore(score))) {
       scores.add(new Score("Your Name", score));
     }
@@ -87,7 +91,10 @@ public class HighScoreTableModel extends AbstractTableModel {
     if (sm != null) {
       sm.checkPermission(new HighScoresPermission("byron"));
     }
-    if (!file.exists()) return new HighScores();
+    if (!file.exists()) {
+      System.out.println("Error: "+path+" does not exist.");
+      return new HighScores();
+    }
 
     HighScores scores = null;
 
@@ -103,6 +110,7 @@ public class HighScoreTableModel extends AbstractTableModel {
       });
     } catch (PrivilegedActionException pae) {
       Exception e = pae.getException();
+      e.printStackTrace();
       if (e instanceof IOException)
         throw (IOException) e;
       else

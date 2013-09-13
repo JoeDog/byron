@@ -49,7 +49,20 @@ public class GameModel extends AbstractModel {
     }
     return str;
   }
-  
+
+  public int getMarkTotal() {
+    int total = 0;
+
+    for (int x = 0; x < 3; x++) {
+      for (int y = 0; y < 3; y++) {
+        if (! empty(x, y)) {
+          total++;
+        }
+      }
+    }
+    return total;
+  }
+
   public boolean getIsEmpty (Integer position) {
     switch (position.intValue()) {
       case 1:

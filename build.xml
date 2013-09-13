@@ -32,6 +32,9 @@
     <copy todir="${build.dir}/org/joedog/byron/engine/menace" >  
       <fileset dir="${src.dir}/org/joedog/byron/engine/menace" includes="*.properties" />  
     </copy>  
+    <copy todir="${build.dir}//org/joedog/byron/files">
+      <fileset dir="${src.dir}/org/joedog/byron/files" includes="*.html" />  
+    </copy>  
   </target> 
 
   <target name="run" depends="clean,compile,resources">

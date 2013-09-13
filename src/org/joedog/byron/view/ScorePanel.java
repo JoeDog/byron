@@ -2,6 +2,7 @@ package org.joedog.byron.view;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -15,6 +16,7 @@ public class ScorePanel extends AbstractView {
   private String prefix;
   private String spacer  = new String("    ");
   private JLabel face;
+  private JLabel bonus;
   private int    fontSize = 10;
   private GameController controller;
   static final long serialVersionUID = -687856439824005033L;
@@ -43,6 +45,10 @@ public class ScorePanel extends AbstractView {
     face.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     this.setLayout(new BorderLayout());
     this.add(face, BorderLayout.CENTER);
+    this.bonus  = new JLabel("  ");
+    this.bonus.setFont(new Font("Helvetica", Font.BOLD, fontSize+2));
+    this.bonus.setForeground (new Color(11, 160, 85));
+    this.add(bonus, BorderLayout.EAST);
   }
 
   public void setPrefix(String prefix) {
@@ -56,6 +62,15 @@ public class ScorePanel extends AbstractView {
   public void setScore (Double score) {
     this.score = (double)score;
     face.setText(this.spacer+this.prefix+" "+this.score+this.spacer);
+  } 
+
+  public void setBonus(Integer marks) {
+    if (marks.intValue() < 7) {
+      bonus.setText(" !");
+    } else {
+      bonus.setText("  ");
+    }
+    return;
   } 
   
   public double getScore () {

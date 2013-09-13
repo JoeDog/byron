@@ -151,12 +151,14 @@ public class GameController extends AbstractController {
         break;
       case XWIN: 
         if (!this.over) {
-          Long l   = (Long)getViewProperty("TimeRemaining");
-          int time = l.intValue();
-          setModelProperty("Score", new Data(this.XWIN, time));
+          Long l    = (Long)getViewProperty("TimeRemaining");
+          int time  = l.intValue();
+          int marks = ((Integer)getModelProperty("MarkTotal")).intValue();
+          setModelProperty("Score", new Data(this.XWIN, time, marks));
           setViewProperty("Winner", this.XWIN);
           setViewProperty("Status", "X Wins!");
           setViewProperty("Score",  (Double)getModelProperty("Score"));
+          setViewProperty("Bonus",  marks);
         }
         this.over = true;
         break;
