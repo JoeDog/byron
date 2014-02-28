@@ -45,7 +45,6 @@ public class MenuView extends JMenuBar {
     JMenuItem   item; 
     ButtonGroup group = new ButtonGroup();
     int engine = controller.getIntProperty("Engine");
-    System.out.println("INSIDE MENU: "+engine);
     // Pref Menus
     for (int i = 0; i < prefItems.length; i++) {
       prefMenu.add(item = new JRadioButtonMenuItem(prefItems[i], (i==engine)?true:false)); 

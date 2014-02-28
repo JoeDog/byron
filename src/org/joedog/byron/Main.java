@@ -89,7 +89,6 @@ public class Main {
     Player[] players = { player2, player1 };
     players[0].start();
     players[1].start();
-    this.controller.newMatch();
     while (true) {
       status = controller.gameStatus(); 
       if (status > 0) break;
