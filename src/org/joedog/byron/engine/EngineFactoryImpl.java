@@ -2,6 +2,8 @@ package org.joedog.byron.engine;
 
 import org.joedog.byron.engine.menace.*;
 import org.joedog.byron.engine.minimax.*;
+import org.joedog.byron.engine.montecarlo.*;
+
 
 public class EngineFactoryImpl implements EngineFactory {
 
@@ -14,6 +16,9 @@ public class EngineFactoryImpl implements EngineFactory {
     } 
     if (type == Engine.MINIMAX) {
       return new MiniMax();
+    }
+    if (type == Engine.MONTECARLO) {
+      return new MonteCarlo();
     }
     return null;
   }

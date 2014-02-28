@@ -45,7 +45,7 @@ public class GameController extends AbstractController {
   private boolean waiting   = false;
   private int     square    = -1;
   private int     position  = -1;
-  private int     engine    = Engine.MENACE;
+  private int     engine;
 
   public GameController () {
   }
@@ -69,11 +69,44 @@ public class GameController extends AbstractController {
     this.square   = -1;
     this.position = -1;
     this.alive    = true;
+    this.engine   = this.getIntProperty("Engine");
   } 
+
+  public String getProperty(String property) {
+    String str = (String)getModelProperty(property);
+    if (str == null) {
+      return "";
+    } else {
+      return str;
+    }
+  }
+
+  public int getIntProperty(String property) {
+    String tmp = (String)getModelProperty(property);
+    try {
+      if (tmp != null && tmp.length() > 0) {
+        return Integer.parseInt(tmp);
+      }
+    } catch (final NumberFormatException nfe) {
+      return 0;
+    }
+    return 0;
+  }
+
+  public boolean getBooleanProperty(String property) {
+    String tmp = (String)getModelProperty(property);
+    if (tmp.equals("true")) {
+      return true;
+    }
+    return false;
+  }
 
   // ExitAction
   public void exit() {
     setStatus("Shutting down...");
+    this.setModelProperty("MainX", System.getProperty("main.X"));
+    this.setModelProperty("MainY", System.getProperty("main.Y"));
+    runModelMethod("save");
     try {
       Thread.sleep(200);
     } catch (Exception e) {
@@ -119,7 +152,12 @@ public class GameController extends AbstractController {
 
   public void setEngine (int engine) {
     this.engine = engine;
+    this.setModelProperty("Engine", ""+engine);
   }
+
+  /*public int getEngine() {
+    return this.engine;
+  }*/
 
   public synchronized void updateBoard (int mark, int square) {
     setModelProperty("Square", new Move(mark, square));
@@ -132,10 +170,6 @@ public class GameController extends AbstractController {
 
   public String getGameString () {
     return (String)getModelProperty("GameString");
-  }
-
-  public int getEngine() {
-    return this.engine;
   }
 
   public boolean isGameOver() {

@@ -1,8 +1,9 @@
 package org.joedog.byron.engine;
 
 public abstract class Engine {
-  public static final int MENACE  = 1;
-  public static final int MINIMAX = 2;
+  public static final int MENACE     = 0;
+  public static final int MINIMAX    = 1;
+  public static final int MONTECARLO = 2;
 
   public Engine () {
   }

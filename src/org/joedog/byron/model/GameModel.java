@@ -4,11 +4,14 @@ import org.joedog.byron.controller.*;
 import org.joedog.byron.util.*;
 
 public class GameModel extends AbstractModel {
-  private int[][]    grid  = new int[3][3];
-  private boolean    debug = false;
+  private Configuration conf  = null;
+  private int[][]    grid     = new int[3][3];
+  private boolean    debug    = false;
 
   public GameModel () {
     reset();
+    conf = Configuration.getInstance();
+    System.out.println("GOT CONF");
   }
 
   public void reset() {
@@ -48,6 +51,38 @@ public class GameModel extends AbstractModel {
       }      
     }
     return str;
+  }
+
+  public String getEngine() {
+    String tmp = (conf.getProperty("Engine") == null) ? "0" : conf.getProperty("Engine");
+    try {
+    if (tmp == null) {
+      throw new NullPointerException("Engine is null!");
+    }
+    } catch (Exception e) { 
+      return "0";
+    }
+    return tmp;
+  }
+
+  public void setEngine(String engine) {
+    conf.setProperty("Engine", engine);
+  }
+
+  public String getMainX() {
+    return conf.getProperty("MainX");
+  }
+
+  public void setMainX(String X) {
+    conf.setProperty("MainX", X);
+  }
+
+  public String getMainY() {
+    return conf.getProperty("MainY");
+  }
+
+  public void setMainY(String Y) {
+    conf.setProperty("MainY", Y);
   }
 
   public int getMarkTotal() {
@@ -153,4 +188,7 @@ public class GameModel extends AbstractModel {
     return grid[row][col] == GameController.EMPTY;
   }
 
+  public void save() {
+    conf.save();
+  }
 }

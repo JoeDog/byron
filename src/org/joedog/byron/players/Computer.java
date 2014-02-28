@@ -12,6 +12,7 @@ public class Computer extends Player {
   private boolean inplay = false;
   private Engine        engine1;
   private Engine        engine2;
+  private Engine        engine3;
   private EngineFactory factory;
   
   private GameController controller;
@@ -20,8 +21,10 @@ public class Computer extends Player {
     super(mark);
     this.controller = controller;
     this.factory    = new EngineFactoryImpl();
+    this.ENGINE     = this.controller.getIntProperty("Engine");
     this.engine1    = this.factory.getEngine(Engine.MENACE);
     this.engine2    = this.factory.getEngine(Engine.MINIMAX);
+    this.engine3    = this.factory.getEngine(Engine.MONTECARLO);
     this.map();
   }
 
@@ -44,16 +47,16 @@ public class Computer extends Player {
   }
 
   public void finish (int status) {
-    Engine[] engines = {this.engine1, this.engine2};
+    Engine[] engines = {this.engine1, this.engine2, this.engine3};
     if (this.inplay == false) {
       return;
     }
     if ((status == controller.XWIN) && (this.mark == controller.OSQUARE)) { 
-      engines[this.ENGINE-1].punish();
+      engines[this.ENGINE].punish();
     } else if ((status == controller.OWIN && this.mark == controller.OSQUARE)) { 
-      engines[this.ENGINE-1].reward();
+      engines[this.ENGINE].reward();
     } else {
-      engines[this.ENGINE-1].restore();
+      engines[this.ENGINE].restore();
     }
     this.inplay = false;
   }
@@ -61,10 +64,10 @@ public class Computer extends Player {
   public void takeTurn() {
     int position;
     boolean done = false;
-    Engine[] engines = {this.engine1, this.engine2};
+    Engine[] engines = {this.engine1, this.engine2, this.engine3};
     String s = controller.getGameString();
     while (!done) {
-      position = engines[this.ENGINE-1].getMove(s);
+      position = engines[this.ENGINE].getMove(s);
       if (position == -1) 
         position = getMove();
       if (controller.isEmpty(position)) {
