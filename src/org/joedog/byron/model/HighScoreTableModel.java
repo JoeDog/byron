@@ -20,7 +20,7 @@ public class HighScoreTableModel extends AbstractTableModel {
   public HighScoreTableModel (double score) {
     AccessController.doPrivileged(new PrivilegedAction<Object>() {
       public Object run() {
-        path = System.getProperty("user.home") + File.separator + ".byron.score";
+        path = System.getProperty("byron.scores");
         file = new File(path);
         return null;
       }
