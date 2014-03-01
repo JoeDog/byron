@@ -10,6 +10,7 @@ import org.joedog.byron.controller.GameController;
 public class MonteCarlo extends Engine {
   private State  state;
   private Node   node;
+  private long   end = 0;
   private static final int COMPUTER =  1;
   private static final int HUMAN    = -1;
   
@@ -19,18 +20,19 @@ public class MonteCarlo extends Engine {
   public int getMove(String pattern) {
     int cnt  = 0;
     int move = -1;
+    this.end = this.getEnd();
     state    = new State(pattern);  
     node     = new Node(state);
     node.expand(this.getValidMoves(state, true));
     final long start = System.currentTimeMillis();
     ThreadGroup tg   = new ThreadGroup("Trial");
-    Thread threads[] = new Thread[10];
+    Thread threads[] = new Thread[3];
     for (int i = 0; i < threads.length; i++) {
       threads[i] = new Thread(tg, ""+i) {
         @Override
         public void run() {
           int trials = 0;
-          while (trials < 10000) {
+          while (trials < end) {
             trial(node, true);
             trials++;
           }
@@ -141,5 +143,17 @@ public class MonteCarlo extends Engine {
       }
     }
     return moves.get(rand.nextInt(s));
+  }
+
+  private int getEnd() {
+    String tmp = (String)System.getProperty("byron.thoughts");
+    try {
+      if (tmp != null && tmp.length() > 0) {
+        return Integer.parseInt(tmp);
+      }
+    } catch (final NumberFormatException nfe) {
+      return 1;
+    }
+    return 1;
   }
 }

@@ -53,7 +53,6 @@ public class Configuration {
         }
       }
     }
-    System.out.println("RETURNING INSTANCE");
     return _instance;
   }
 

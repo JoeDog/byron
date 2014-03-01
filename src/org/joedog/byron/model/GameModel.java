@@ -11,7 +11,6 @@ public class GameModel extends AbstractModel {
   public GameModel () {
     reset();
     conf = Configuration.getInstance();
-    System.out.println("GOT CONF");
   }
 
   public void reset() {
@@ -25,14 +24,13 @@ public class GameModel extends AbstractModel {
   }
 
   public void display() {
-    if (!debug) return; 
     for (int x = 0; x < 3; x++) {
       for (int y = 0; y < 3; y++) {
-        System.out.print(grid[x][y]);
+        if (debug) System.out.print(grid[x][y]);
       }
-      System.out.println("");
+      if (debug) System.out.println("");
     }
-    System.out.println("---");
+    if (debug) System.out.println("---");
   }
 
   public String getGameString() {
@@ -152,10 +150,16 @@ public class GameModel extends AbstractModel {
       return grid[2][0];
     }
     // check for tie
-    for (int y = 0; y < 3; y++)
-      for (int x = 0; x < 3; x++)
-        if (grid[x][y] == 0) 
+    for (int y = 0; y < 3; y++) {
+      for (int x = 0; x < 3; x++) {
+        if (grid[x][y] == 0) {
+          display();
           return 0;
+        }
+      }
+    }
+    firePropertyChange(GameController.PATTERN, "Y", GameController.DIA[2]);
+    display();
     return 3;
   }
 

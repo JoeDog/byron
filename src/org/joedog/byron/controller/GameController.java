@@ -34,7 +34,8 @@ public class GameController extends AbstractController {
   public static final String DIA[]     = 
   {
     "G", // diagonal from 1 to 9
-    "H"  // diagonal from 3 to 7
+    "H", // diagonal from 3 to 7
+    "I"  // draw
   };
   public static final int  EMPTY     = 0;
   public static final int  XSQUARE   = 1;
@@ -45,18 +46,25 @@ public class GameController extends AbstractController {
   private boolean waiting   = false;
   private int     square    = -1;
   private int     position  = -1;
+  private int     counter   = 0;
   private int     engine;
 
   public GameController () {
+    System.getProperties().put("byron.thoughts", "1");  
   }
 
   public synchronized void newGame () {
     this.over     = false;
     this.square   = -1;
     this.position = -1;
+    this.counter  += 1;
     runModelMethod("reset");
     runViewMethod("reset");
     this.alive    = true;
+    if (counter % 15 == 0) {
+      // this is here to make Monte Carlo increasingly smarter
+      System.getProperties().put("byron.thoughts", ""+this.addThought());  
+    }
   }
   
   // NewAction
@@ -70,6 +78,7 @@ public class GameController extends AbstractController {
     this.position = -1;
     this.alive    = true;
     this.engine   = this.getIntProperty("Engine");
+    System.getProperties().put("byron.thoughts", "1");  
   } 
 
   public String getProperty(String property) {
@@ -155,13 +164,9 @@ public class GameController extends AbstractController {
     this.setModelProperty("Engine", ""+engine);
   }
 
-  /*public int getEngine() {
-    return this.engine;
-  }*/
-
   public synchronized void updateBoard (int mark, int square) {
-    setModelProperty("Square", new Move(mark, square));
     setViewProperty("Board", new Move(mark, square));
+    setModelProperty("Square", new Move(mark, square));
   }
 
   public boolean isEmpty (int square) {
@@ -217,5 +222,17 @@ public class GameController extends AbstractController {
     } 
     if (lives <= 0) this.alive = false;
     return status;
+  }
+
+  private int addThought() {
+    String tmp = (String)System.getProperty("byron.thoughts");
+    try {
+      if (tmp != null && tmp.length() > 0) {
+        return (Integer.parseInt(tmp)+1);
+      }
+    } catch (final NumberFormatException nfe) {
+      return 1;
+    }
+    return 1;
   }
 }

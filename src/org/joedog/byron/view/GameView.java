@@ -19,15 +19,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
+import javax.swing.JComponent;
 import javax.swing.Action;
 import javax.swing.AbstractAction;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory; 
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 public class GameView extends AbstractView implements MouseListener {
   private Square[][] square = new Square[3][3];
-  private JPanel     main   = new JPanel();
+  private JPanel     main; //  = new JPanel();
   private JPanel     bottom = new JPanel();
   private JPanel     buttons= new JPanel();
   private JLabel[]   spacer = new JLabel[3];
@@ -45,7 +49,15 @@ public class GameView extends AbstractView implements MouseListener {
     this.clock      = new ClockFace(controller);
     this.score      = new ScorePanel(controller);
     this.lives      = new LivesPanel(controller);
-    this.setPreferredSize(new Dimension(280,280));
+    this.main       = new JPanel() {
+      @Override
+      public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0, getHeight()-5, getWidth(),getHeight());
+      }
+    };
+    this.setPreferredSize(new Dimension(300,320));
     this.setBackground(Color.lightGray);
     this.setup();
     resetAction.setEnabled(true);
@@ -85,8 +97,8 @@ public class GameView extends AbstractView implements MouseListener {
     FlowLayout   fl = new FlowLayout();
     for (int i=0; i < 3; i++)
       spacer[i] = new JLabel("    ");
-    gl.setVgap(1);
-    gl.setHgap(1);
+    gl.setVgap(-1);
+    gl.setHgap(-1);
     main.setLayout(gl);
     main.setBackground(Color.GRAY);
     buttons.setLayout(fl);
@@ -168,6 +180,7 @@ public class GameView extends AbstractView implements MouseListener {
     if (e.getNewValue() == null) return;
     if (e.getPropertyName().equals(controller.PATTERN)) {
       Color green = new Color(11, 160, 85);
+      Color blue  = new Color(0, 0, 85);
       if (e.getNewValue().equals("X")) return;
       if (e.getNewValue().equals("A")) {
         for (int i = 0; i < 3; i++) {
@@ -221,6 +234,14 @@ public class GameView extends AbstractView implements MouseListener {
         square[2][0].setColor(green);
         square[2][0].repaint();
       }
+      if (e.getNewValue().equals("I")) {
+        for (int y = 0; y < 3; y++) {
+          for (int x = 0; x < 3; x++) {
+            square[x][y].setColor(new Color(104, 104, 104));
+            square[x][y].repaint();
+          }
+        }
+      } // end if I, if I, if I, didn't love you, I'd hate you...
     }
   }
 
@@ -241,7 +262,7 @@ public class GameView extends AbstractView implements MouseListener {
     }
   }
 
-  private class Square extends Canvas {
+  private class Square extends JPanel {
     private int   id;
     private int   wr     = 0;
     private int   hr     = 0;
@@ -284,11 +305,43 @@ public class GameView extends AbstractView implements MouseListener {
       }
     }
 
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
       Graphics2D g2 = (Graphics2D)g;
-      int w   = this.getWidth();
-      int h   = this.getHeight();
       Font font = new Font("Helvetica", Font.BOLD, 36);
+      int w     = this.getWidth();
+      int h     = this.getHeight();
+      g2.setColor(Color.LIGHT_GRAY);
+      g2.fillRect(0, 0, getWidth()-2, getHeight()-2);
+      switch (this.id) {
+        case 1: 
+          this.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 0, Color.LIGHT_GRAY));
+          break;
+        case 2:
+          this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.LIGHT_GRAY));
+          break; 
+        case 3:
+          this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 2, Color.LIGHT_GRAY));
+          break; 
+        case 4:
+          this.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.LIGHT_GRAY));
+          break; 
+        case 5:
+          break;
+        case 6:
+          this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.LIGHT_GRAY));
+          break; 
+        case 7:
+          this.setBorder(BorderFactory.createMatteBorder(0, 2, 2, 0, Color.LIGHT_GRAY));
+          break; 
+        case 8:
+          this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
+          break; 
+        case 9:
+          this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.LIGHT_GRAY));
+          break; 
+        default:
+          break;
+      }
       g2.setFont(font);
       g2.setColor(color);
       if (value == 1) {
