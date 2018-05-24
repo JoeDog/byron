@@ -1,7 +1,6 @@
 package org.joedog.byron.engine.montecarlo;
 
 import java.util.ArrayList;
-import org.joedog.byron.controller.GameController;
 
 public class Evaluation {
 
