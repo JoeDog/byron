@@ -92,9 +92,9 @@ public class Main {
     while (true) {
       status = controller.gameStatus(); 
       if (status > 0) break;
-      if ((players[turn%2].getType()).equals("HUMAN")) 
+      if ((players[turn%2].getType()).equals("HUMAN")) {
         controller.setStatus("Your turn...");
-      else {
+      } else {
         controller.setStatus("My turn...");
         players[turn%2].setEngine(controller.getIntProperty("Engine"));
       }
