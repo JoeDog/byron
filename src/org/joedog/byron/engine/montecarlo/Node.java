@@ -89,7 +89,7 @@ public class Node {
   }
 
   public void reward() {
-    this.score += 1;
+    this.score += 2;
   }
 
   public void punish() {
