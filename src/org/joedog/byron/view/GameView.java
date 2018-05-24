@@ -97,8 +97,8 @@ public class GameView extends AbstractView implements MouseListener {
     FlowLayout   fl = new FlowLayout();
     for (int i=0; i < 3; i++)
       spacer[i] = new JLabel("    ");
-    gl.setVgap(-1);
-    gl.setHgap(-1);
+    gl.setVgap(3);
+    gl.setHgap(3);
     main.setLayout(gl);
     main.setBackground(Color.GRAY);
     buttons.setLayout(fl);
