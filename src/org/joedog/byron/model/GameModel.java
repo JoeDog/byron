@@ -51,20 +51,48 @@ public class GameModel extends AbstractModel {
     return str;
   }
 
-  public String getEngine() {
-    String tmp = (conf.getProperty("Engine") == null) ? "0" : conf.getProperty("Engine");
+  public String getTrials() {
+    String tmp = (conf.getProperty("Trials") == null) ? "0" : conf.getProperty("Trials");
     try {
-    if (tmp == null) {
-      throw new NullPointerException("Engine is null!");
-    }
+      if (tmp == null) {
+        throw new NullPointerException("Trials is null!");
+      }
     } catch (Exception e) { 
       return "0";
     }
     return tmp;
   }
 
-  public void setEngine(String engine) {
-    conf.setProperty("Engine", engine);
+  public String getEngineX() {
+    String tmp = (conf.getProperty("EngineX") == null) ? "0" : conf.getProperty("EngineX");
+    try {
+      if (tmp == null) {
+        throw new NullPointerException("Engine is null!");
+      }
+    } catch (Exception e) {
+      return "0";
+    }
+    return tmp;
+  }
+
+  public String getEngineO() {
+    String tmp = (conf.getProperty("EngineO") == null) ? "0" : conf.getProperty("EngineO");
+    try {
+      if (tmp == null) {
+        throw new NullPointerException("Engine is null!");
+      }
+    } catch (Exception e) {
+      return "0";
+    }
+    return tmp;
+  }
+
+  public void setEngineX(String engine) {
+    conf.setProperty("EngineX", engine);
+  }  
+
+  public void setEngineO(String engine) {
+    conf.setProperty("EngineO", engine);
   }
 
   public String getMainX() {
@@ -81,6 +109,10 @@ public class GameModel extends AbstractModel {
 
   public void setMainY(String Y) {
     conf.setProperty("MainY", Y);
+  }
+
+  public String getTraining() {
+    return conf.getProperty("Training");
   }
 
   public int getMarkTotal() {
@@ -124,7 +156,7 @@ public class GameModel extends AbstractModel {
   public int getGameStatus () {
     // check the rows 
     for (int x = 0; x < 3; x++) {
-      if ((grid[x][0] + grid[x][1] + grid[x][2] > 0) && (grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2])) {
+      if ((grid[x][0]+grid[x][1]+grid[x][2] > 0) && (grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2])) {
         firePropertyChange(GameController.PATTERN, "X", GameController.ROW[x]);
         display();
         return grid[x][0];
@@ -132,7 +164,7 @@ public class GameModel extends AbstractModel {
     }
     // now check columns
     for (int y = 0; y < 3; y++) {
-      if ((grid[0][y] + grid[1][y] + grid[2][y] > 0) && (grid[0][y] == grid[1][y] && grid[1][y] == grid[2][y])) {
+      if ((grid[0][y]+grid[1][y]+grid[2][y] > 0) && (grid[0][y] == grid[1][y] && grid[1][y] == grid[2][y])) {
         firePropertyChange(GameController.PATTERN, "X", GameController.COL[y]);
         display();
         return grid[0][y];
