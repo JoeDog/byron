@@ -11,11 +11,25 @@ public class MonteCarlo extends Engine {
   private State  state;
   private Node   node;
   private long   end = 0;
-  private static final int COMPUTER =  1;
-  private static final int HUMAN    = -1;
+  private static final int  COMPUTER  =  1;
+  private static final int  HUMAN     = -1;
+  private static MonteCarlo _instance = null;
+  private static Object     mutex     = new Object();
   
-  public MonteCarlo () {
+  private MonteCarlo () {
   }
+
+  public synchronized static MonteCarlo getInstance() {
+    if (_instance == null) {
+      synchronized(mutex) {
+        if (_instance == null) {
+          _instance = new MonteCarlo();
+        }
+      }
+    }
+    return _instance;
+  }
+
 
   public int getMove(String pattern) {
     int cnt  = 0;
@@ -26,7 +40,7 @@ public class MonteCarlo extends Engine {
     node.expand(this.getValidMoves(state, true));
     final long start = System.currentTimeMillis();
     ThreadGroup tg   = new ThreadGroup("Trial");
-    Thread threads[] = new Thread[3];
+    Thread threads[] = new Thread[3]; 
     for (int i = 0; i < threads.length; i++) {
       threads[i] = new Thread(tg, ""+i) {
         @Override
@@ -155,5 +169,11 @@ public class MonteCarlo extends Engine {
       return 1;
     }
     return 1;
+  }
+
+  public void save() { }
+
+  public String toString() {
+    return "Monte Carlo engine";
   }
 }
