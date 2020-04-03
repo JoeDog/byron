@@ -3,6 +3,7 @@ package org.joedog.byron;
 import org.joedog.byron.controller.*;
 import org.joedog.byron.model.*;
 import org.joedog.byron.players.*;
+import org.joedog.byron.engine.Engine;
 import org.joedog.byron.view.*;
 import org.joedog.byron.view.actions.*;
 
@@ -30,6 +31,7 @@ public class Main {
   private Player         player1;
   private Player         player2;
   private JFrame         main;
+  private int            trials;
 
   public Main() {
     this.splash     = new Splash();
@@ -42,11 +44,10 @@ public class Main {
     this.scoreModel = new ScoreModel();
     splash.setMessage("Players");
     this.factory    = new PlayerFactoryImpl();
-    this.player1    = factory.getPlayer(controller, Player.HUMAN,    controller.XSQUARE);
     splash.setMessage("M.E.N.A.C.E. engine");
-    this.player2    = factory.getPlayer(controller, Player.COMPUTER, controller.OSQUARE);
     splash.setMessage("MiniMax engine");
     splash.setMessage("Monte Carlo engine");
+    splash.setMessage("Reinforced Learing engine");
 
     controller.addModel(gameModel);
     controller.addModel(scoreModel);
@@ -78,31 +79,55 @@ public class Main {
     main.pack();
     main.setLocation(x, y);
     main.setVisible(true);
+    if (controller.getBooleanProperty("Training") == true) {
+      this.player1 = factory.getPlayer(controller, Player.COMPUTER, controller.XSQUARE);
+      this.player1.setEngine(Engine.TRAINING);
+      this.trials  = controller.getIntProperty("Trials");
+    } else {
+      this.player1 = factory.getPlayer(controller, Player.HUMAN,    controller.XSQUARE);
+    }
+    this.player2 = factory.getPlayer(controller, Player.COMPUTER, controller.OSQUARE);
     for ( ;; ) {
-      while(controller.alive){this.play();}
+      while(controller.alive){
+        this.play();
+      }
     }
   }
 
   public synchronized void play () {
     int turn         = 0;
-    int status       = GameController.ACTIVE;
-    Player[] players = { player2, player1 };
-    players[0].start();
-    players[1].start();
-    while (true) {
+    int status       = controller.gameStatus();
+    Player[] players = { 
+      player2, 
+      player1 
+    };
+    if (status == GameController.ACTIVE) {
+      players[0].start();
+      players[1].start();
+    }
+    do {
       status = controller.gameStatus(); 
       if (status > 0) break;
       if ((players[turn%2].getType()).equals("HUMAN")) {
         controller.setStatus("Your turn...");
       } else {
         controller.setStatus("My turn...");
-        players[turn%2].setEngine(controller.getIntProperty("Engine"));
+        players[turn%2].setEngine(controller.getIntProperty("EngineO"));
       }
       players[turn%2].takeTurn(); 
       turn++;
-    }
+    } while (status == GameController.ACTIVE);
     players[0].finish(status);
     players[1].finish(status);
+    if (controller.getBooleanProperty("Training") == true) {
+      this.trials--;
+      if (this.trials > 0) {
+        controller.newMatch();
+      } else {
+        players[1].save();
+        System.exit(0);
+      }
+    }
     return;
   }
  
