@@ -18,6 +18,10 @@ public class Human extends Player {
   public void start () {
   }
 
+  public void save() {
+
+  }
+
   public void finish (int status) {
   }
 
