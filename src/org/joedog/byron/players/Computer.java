@@ -10,9 +10,7 @@ public class Computer extends Player {
   private final static String type = "COMPUTER";
   private int map[][]    = new int[3][3];
   private boolean inplay = false;
-  private Engine        engine1;
-  private Engine        engine2;
-  private Engine        engine3;
+  private Engine        engine;
   private EngineFactory factory;
   
   private GameController controller;
@@ -21,11 +19,13 @@ public class Computer extends Player {
     super(mark);
     this.controller = controller;
     this.factory    = new EngineFactoryImpl();
-    this.ENGINE     = this.controller.getIntProperty("Engine");
-    this.engine1    = this.factory.getEngine(Engine.MENACE);
-    this.engine2    = this.factory.getEngine(Engine.MINIMAX);
-    this.engine3    = this.factory.getEngine(Engine.MONTECARLO);
+    this.setEngine(this.controller.getIntProperty(this.engstr));
     this.map();
+  }
+
+  @Override
+  public void setEngine(int engine) {
+    this.engine = this.factory.getEngine(engine);
   }
 
   public void map () {
@@ -47,16 +47,19 @@ public class Computer extends Player {
   }
 
   public void finish (int status) {
-    Engine[] engines = {this.engine1, this.engine2, this.engine3};
     if (this.inplay == false) {
       return;
     }
     if ((status == controller.XWIN) && (this.mark == controller.OSQUARE)) { 
-      engines[this.ENGINE].punish();
+      this.engine.punish();
+    } else if ((status == controller.OWIN) && (this.mark == controller.XSQUARE)) { 
+      this.engine.punish();
     } else if ((status == controller.OWIN && this.mark == controller.OSQUARE)) { 
-      engines[this.ENGINE].reward();
+      this.engine.reward();
+    } else if ((status == controller.XWIN && this.mark == controller.XSQUARE)) { 
+      this.engine.reward();
     } else {
-      engines[this.ENGINE].restore();
+      this.engine.restore();
     }
     this.inplay = false;
   }
@@ -64,10 +67,9 @@ public class Computer extends Player {
   public void takeTurn() {
     int position;
     boolean done = false;
-    Engine[] engines = {this.engine1, this.engine2, this.engine3};
-    String s = controller.getGameString();
+    String s = controller.getGameString(); 
     while (!done) {
-      position = engines[this.ENGINE].getMove(s);
+      position = this.engine.getMove(s);
       if (position == -1) 
         position = getMove();
       if (controller.isEmpty(position)) {
@@ -77,6 +79,11 @@ public class Computer extends Player {
     }
   }  
 
+  /**
+   * Helper method to ensure we don't get stuck. 
+   * We call this method if engine.getMove() can't
+   * produce a viable move....
+   */ 
   private int getMove () {
     int col;
     int row;
@@ -89,5 +96,9 @@ public class Computer extends Player {
         return map[row][col];
       }
     }
+  }
+
+  public void save() {
+    this.engine.save();
   }
 }
