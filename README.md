@@ -54,8 +54,8 @@ Requirements
 
 Byron requires at least java 1.6. The game itself is bundled in byron.jar.  
 On most platforms, you should be able to double-click the file in order to  
-play the game. If java is not associated with jar files on your computer, you 
-can play the game with the following command:  java -jar byron-1.0.5.jar
+play the game. If java is not associated with jar files on your computer, you  
+can play the game with the following command:  java -jar byron-1.0.5.jar  
 
 
 
