@@ -14,7 +14,7 @@ public class EngineAction implements ActionListener {
   }
 
   public void actionPerformed (ActionEvent e) {
-    this.controller.setEngine(engine);
+    this.controller.setEngineO(engine);
   }
 }
 
