@@ -14,7 +14,7 @@ when no lives remain. You get a new "life" for every 50 points.
 Artificial Intelligence.
 
 Byron uses four AI engines, M.E.N.A.C.E., Minimax, Monte Carlo and Reinforced  
-Learning.  The first one is based on Donald Michie's Machine Educable Noughts 
+Learning.  The first one is based on Donald Michie's Machine Educable Noughts  
 And Crosses Engine (MENACE). That was a "computer" constructed of match boxes  
 which was capable of "learning" Tic Tac Toe.  
 
