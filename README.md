@@ -5,11 +5,11 @@ README
 Byron is a multi-game Tic-Tac-Toe, with a running score and a race against  
 the clock. The object is to remain alive while as many points as possible.  
 
-A new game begins with five lives and zero points. You're X and Byron is O.
-Byron starts first. Each Tic-Tac-Toe is timed. The timer starts at ten and 
-counts down to zero. If you win the game, you get one point for every second 
-left on the clock. If you lose, a "life" is taken from you. Byron is over 
-when no lives remain. You get a new "life" for every 50 points.
+A new game begins with five lives and zero points. You're X and Byron is O.  
+Byron starts first. Each Tic-Tac-Toe is timed. The timer starts at ten and   
+counts down to zero. If you win the game, you get one point for every second   
+left on the clock. If you lose, a "life" is taken from you. Byron is over  
+when no lives remain. You get a new "life" for every 50 points.  
 
 Artificial Intelligence.
 
