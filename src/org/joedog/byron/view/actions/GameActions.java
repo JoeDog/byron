@@ -25,6 +25,8 @@ public class GameActions {
       return new EngineAction(controller, Engine.MINIMAX);
     else if (item.equals("Monte Carlo"))
       return new EngineAction(controller, Engine.MONTECARLO);
+    else if (item.equals("Reinforced"))
+      return new EngineAction(controller, Engine.REINFORCED);
     else if (item.equals("Help"))
       return new HelpAction();
     else if (item.equals("About"))
