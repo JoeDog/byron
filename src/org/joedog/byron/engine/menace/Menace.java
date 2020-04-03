@@ -10,6 +10,8 @@ import org.joedog.byron.engine.*;
 public class Menace extends Engine {
   private HashMap boxes;
   private ArrayList <Box>refs;
+  private static Menace _instance = null;
+  private static Object mutex     = new Object();
   private int table[][] = {
     {0, 1, 2, 3, 4, 5, 6, 7, 8}, // normal board
     {6, 3, 0, 7, 4, 1, 8, 5, 2}, // 90 degees right
@@ -22,9 +24,20 @@ public class Menace extends Engine {
     {0, 3, 6, 1, 4, 7, 2, 5, 8}  // 90 degrees right, flipped vertically
   }; // see: http://www.adit.co.uk/html/transformations.html
 
-  public Menace () {
+  private Menace () {
     this.boxes = getBoxes("org/joedog/byron/engine/menace/positions.properties");
     this.refs  = new ArrayList<Box>();
+  }
+
+  public synchronized static Menace getInstance() {
+    if (_instance == null) {
+      synchronized(mutex) {
+        if (_instance == null) {
+          _instance = new Menace();
+        }
+      }
+    }
+    return _instance;
   }
 
   /**
@@ -86,4 +99,11 @@ public class Menace extends Engine {
     }
   }
 
+  public void save() {
+
+  }
+
+  public String toString() {
+    return "M.E.N.A.C.E engine";
+  }
 }
