@@ -6,11 +6,24 @@ import org.joedog.byron.engine.*;
 public class MiniMax extends Engine {
   private int    ply;
   private State  state;
-  private static final int COMPUTER =  1;
-  private static final int HUMAN    = -1;
+  private static final int COMPUTER  =  1;
+  private static final int HUMAN     = -1;
+  private static MiniMax   _instance = null;
+  private static Object    mutex     = new Object();
   
   public MiniMax () {
     this.ply = 5;
+  }
+
+  public synchronized static MiniMax getInstance() {
+    if (_instance == null) {
+      synchronized(mutex) {
+        if (_instance == null) {
+          _instance = new MiniMax();
+        }
+      }
+    }
+    return _instance;
   }
 
   public int getMove(String pattern) {
@@ -233,5 +246,11 @@ public class MiniMax extends Engine {
       }
     } 
     return (new State(res));
+  }
+
+  public void save() { }
+
+  public String toString() {
+    return "MiniMax engine";
   }
 }
