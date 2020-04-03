@@ -104,6 +104,7 @@ public class GameController extends AbstractController {
 
   public boolean getBooleanProperty(String property) {
     String tmp = (String)getModelProperty(property);
+    if (tmp == null) return false;
     if (tmp.equals("true")) {
       return true;
     }
@@ -159,9 +160,9 @@ public class GameController extends AbstractController {
     setViewProperty("Status", status);
   }
 
-  public void setEngine (int engine) {
+  public void setEngineO (int engine) {
     this.engine = engine;
-    this.setModelProperty("Engine", ""+engine);
+    setModelProperty("EngineO", ""+engine);
   }
 
   public synchronized void updateBoard (int mark, int square) {
