@@ -12,7 +12,7 @@ import org.joedog.byron.controller.GameController;
 
 public class MenuView extends JMenuBar {
   private String fileItems[]  = new String [] {"New", "Scores", "Exit"};
-  private String prefItems[]  = new String [] {"M.E.N.A.C.E", "Minimax", "Monte Carlo"};
+  private String prefItems[]  = new String [] {"M.E.N.A.C.E", "Minimax", "Monte Carlo", "Reinforced"};
   private String helpItems[]  = new String [] {"Help", "About"};
   char   fileShorts[] = {'N', 'S', 'X'};
   private JMenu  fileMenu; 
@@ -44,7 +44,7 @@ public class MenuView extends JMenuBar {
     
     JMenuItem   item; 
     ButtonGroup group = new ButtonGroup();
-    int engine = controller.getIntProperty("Engine");
+    int engine = controller.getIntProperty("EngineO");
     // Pref Menus
     for (int i = 0; i < prefItems.length; i++) {
       prefMenu.add(item = new JRadioButtonMenuItem(prefItems[i], (i==engine)?true:false)); 
