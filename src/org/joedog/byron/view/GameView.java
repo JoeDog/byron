@@ -344,10 +344,10 @@ public class GameView extends AbstractView implements MouseListener {
       }
       g2.setFont(font);
       g2.setColor(color);
-      if (value == 1) {
+      if (value == GameController.XSQUARE) {
         g2.drawString("X", (w/2)+this.wr, (h/2)+this.hr);
       }
-      if (value == 2) {
+      if (value == GameController.OSQUARE) {
         g2.drawString("0", (w/2)+this.wr, (h/2)+this.hr);
       }
     }
