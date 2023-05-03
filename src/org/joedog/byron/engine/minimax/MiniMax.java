@@ -80,7 +80,6 @@ public class MiniMax extends Engine {
       State temp = applyMove(state, move);
       if (count == 1) {
         eval = new Evaluation(move, evaluate(temp));
-        //return new Evaluation(move, evaluate(temp));
       } else {
         eval = max(temp, ply - 1);
       }
