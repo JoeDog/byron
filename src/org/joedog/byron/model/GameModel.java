@@ -115,6 +115,10 @@ public class GameModel extends AbstractModel {
     return conf.getProperty("Training");
   }
 
+  public String getThoughts() {
+    return conf.getProperty("Thoughts");
+  }
+
   public int getMarkTotal() {
     int total = 0;
 
@@ -156,30 +160,50 @@ public class GameModel extends AbstractModel {
   public int getGameStatus () {
     // check the rows 
     for (int x = 0; x < 3; x++) {
-      if ((grid[x][0]+grid[x][1]+grid[x][2] > 0) && (grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2])) {
+      if (grid[x][0]+grid[x][1]+grid[x][2] == GameController.XSQUARE*3) {
         firePropertyChange(GameController.PATTERN, "X", GameController.ROW[x]);
         display();
-        return grid[x][0];
+        return GameController.XSQUARE;
+      }
+      if (grid[x][0]+grid[x][1]+grid[x][2] == GameController.OSQUARE*3) {
+        firePropertyChange(GameController.PATTERN, "X", GameController.ROW[x]);
+        display();
+        return GameController.OSQUARE;
       }
     }
     // now check columns
     for (int y = 0; y < 3; y++) {
-      if ((grid[0][y]+grid[1][y]+grid[2][y] > 0) && (grid[0][y] == grid[1][y] && grid[1][y] == grid[2][y])) {
+      if (grid[0][y]+grid[1][y]+grid[2][y] == GameController.XSQUARE*3) {
         firePropertyChange(GameController.PATTERN, "X", GameController.COL[y]);
         display();
-        return grid[0][y];
+        return GameController.XSQUARE;
+      }
+      if (grid[0][y]+grid[1][y]+grid[2][y] == GameController.OSQUARE*3) {
+        firePropertyChange(GameController.PATTERN, "X", GameController.COL[y]);
+        display();
+        return GameController.OSQUARE;
       }
     }
     // check diagonally
-    if (((grid[0][0]+grid[1][1]+grid[2][2]) > 0) && (grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2])) {
+    if (grid[0][0]+grid[1][1]+grid[2][2] == GameController.XSQUARE*3) {
       firePropertyChange(GameController.PATTERN, "X", GameController.DIA[0]);
       display();
-      return grid[0][0];
+      return GameController.XSQUARE;
     }
-    if (((grid[2][0]+grid[1][1]+grid[0][2]) > 0) && (grid[2][0] == grid[1][1] && grid[0][2] == grid[1][1])) {
+    if (grid[0][0]+grid[1][1]+grid[2][2] == GameController.OSQUARE*3) {
+      firePropertyChange(GameController.PATTERN, "X", GameController.DIA[0]);
+      display();
+      return GameController.OSQUARE;
+    }
+    if (grid[2][0]+grid[1][1]+grid[0][2] == GameController.XSQUARE*3) {
       firePropertyChange(GameController.PATTERN, "X", GameController.DIA[1]);
       display();
-      return grid[2][0];
+      return GameController.XSQUARE;
+    }
+    if (grid[2][0]+grid[1][1]+grid[0][2] == GameController.OSQUARE*3) {
+      firePropertyChange(GameController.PATTERN, "X", GameController.DIA[1]);
+      display();
+      return GameController.OSQUARE;
     }
     // check for tie
     for (int y = 0; y < 3; y++) {
@@ -192,7 +216,7 @@ public class GameModel extends AbstractModel {
     }
     firePropertyChange(GameController.PATTERN, "Y", GameController.DIA[2]);
     display();
-    return 3;
+    return GameController.DRAW;
   }
 
   public void setSquare (Move move) {
