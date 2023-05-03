@@ -13,26 +13,27 @@ public class GameActions {
   }
 
   public ActionListener getAction(String item) {
-    if (item.equals("New"))
+    if (item.equals("New")) {
       return new NewAction(controller);
-    else if (item.equals("Exit"))
+    } else if (item.equals("Exit")) {
       return new ExitAction(controller);
-    else if (item.equals("Scores"))
+    } else if (item.equals("Scores")) {
       return new ScoresAction(controller);
-    else if (item.equals("M.E.N.A.C.E."))
+    } else if (item.replaceAll("\\.","").equals("MENACE")) {
       return new EngineAction(controller, Engine.MENACE);
-    else if (item.equals("Minimax"))
+    } else if (item.equals("Minimax")) {
       return new EngineAction(controller, Engine.MINIMAX);
-    else if (item.equals("Monte Carlo"))
+    } else if (item.equals("Monte Carlo")) {
       return new EngineAction(controller, Engine.MONTECARLO);
-    else if (item.equals("Reinforced"))
+    } else if (item.equals("Reinforced")) {
       return new EngineAction(controller, Engine.REINFORCED);
-    else if (item.equals("Help"))
+    } else if (item.equals("Help")) {
       return new HelpAction();
-    else if (item.equals("About"))
+    } else if (item.equals("About")) {
       return new AboutAction();
-    else 
+    } else {
       return null;
+    }
   }
 }
 
