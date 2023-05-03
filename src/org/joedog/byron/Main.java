@@ -87,6 +87,18 @@ public class Main {
       this.player1 = factory.getPlayer(controller, Player.HUMAN,    controller.XSQUARE);
     }
     this.player2 = factory.getPlayer(controller, Player.COMPUTER, controller.OSQUARE);
+
+    /**
+     * Set number of thoughts for the Monte Carlo engine;
+     * Byron will add a thought every fifteen games inside 
+     * the GameController.
+     */
+    if (controller.getProperty("Thoughts") != null && controller.getProperty("Thoughts").length() > 0) {
+      System.getProperties().put("byron.thoughts", controller.getProperty("Thoughts"));
+    } else {
+      System.getProperties().put("byron.thoughts", "1");
+    }
+
     for ( ;; ) {
       while(controller.alive){
         this.play();
@@ -107,7 +119,7 @@ public class Main {
     }
     do {
       status = controller.gameStatus(); 
-      if (status > 0) break;
+      if (status != GameController.ACTIVE) break;
       if ((players[turn%2].getType()).equals("HUMAN")) {
         controller.setStatus("Your turn...");
       } else {
