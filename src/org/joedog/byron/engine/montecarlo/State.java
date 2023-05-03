@@ -68,10 +68,10 @@ public class State {
       for (int c = 0; c < 3; c++) {
         char mark;
         switch(board[c][r]) {
-          case -1:
+          case 1:
             mark = 'X';
             break;
-          case  1:
+          case  -1:
             mark = 'O';
             break;
           default:
@@ -98,23 +98,24 @@ public class State {
   public int getStatus(int [][] grid) {
     // check the rows
     for (int x = 0; x < 3; x++) {
-      if ((grid[x][0]+grid[x][1]+grid[x][2] > 0) && (grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2])) {
+      if ((grid[x][0]+grid[x][1]+grid[x][2] != 0) && (grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2])) {
         return grid[x][0];
       }
     }
     // now check columns
     for (int y = 0; y < 3; y++) {
-      if ((grid[0][y]+grid[1][y]+grid[2][y] > 0) && (grid[0][y] == grid[1][y] && grid[1][y] == grid[2][y])) {
+      if ((grid[0][y]+grid[1][y]+grid[2][y] != 0) && (grid[0][y] == grid[1][y] && grid[1][y] == grid[2][y])) {
         return grid[0][y];
       }
     }
     // check diagonally
-    if (((grid[0][0]+grid[1][1]+grid[2][2]) > 0) && (grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2])) {
+    if (((grid[0][0]+grid[1][1]+grid[2][2]) != 0) && (grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2])) {
       return grid[0][0];
     }
-    if (((grid[2][0]+grid[1][1]+grid[0][2]) > 0) && (grid[2][0] == grid[1][1] && grid[0][2] == grid[1][1])) {
+    if (((grid[2][0]+grid[1][1]+grid[0][2]) != 0) && (grid[2][0] == grid[1][1] && grid[0][2] == grid[1][1])) {
       return grid[2][0];
-    }
+    }     
+
     /**
      * If we reached this point, then we
      * we don't have a winner. IF we don't
