@@ -6,10 +6,10 @@ import org.joedog.byron.engine.Engine;
 
 public class GameController extends AbstractController {
   public boolean alive = true;
-  public final static int ACTIVE   = 0;
-  public final static int XWIN     = 1;
-  public final static int OWIN     = 2;
-  public final static int DRAW     = 3;
+  public final static int ACTIVE   =  0;
+  public final static int XWIN     =  1;
+  public final static int OWIN     = -1;
+  public final static int DRAW     =  3;
   public static final int SQUARE[] = 
   {
     1, 2, 3, // row one
@@ -37,9 +37,9 @@ public class GameController extends AbstractController {
     "H", // diagonal from 3 to 7
     "I"  // draw
   };
-  public static final int  EMPTY     = 0;
-  public static final int  XSQUARE   = 1;
-  public static final int  OSQUARE   = 2;
+  public static final int  EMPTY     =  0;
+  public static final int  XSQUARE   =  1;
+  public static final int  OSQUARE   = -1;
   
   private boolean over      = false;
   private boolean added     = false;
@@ -50,7 +50,7 @@ public class GameController extends AbstractController {
   private int     engine;
 
   public GameController () {
-    System.getProperties().put("byron.thoughts", "1");  
+    //System.getProperties().put("byron.thoughts", "5");  
   }
 
   public synchronized void newGame () {
@@ -78,7 +78,11 @@ public class GameController extends AbstractController {
     this.position = -1;
     this.alive    = true;
     this.engine   = this.getIntProperty("Engine");
-    System.getProperties().put("byron.thoughts", "1");  
+    if (this.getProperty("Thoughts") != null) {
+      System.getProperties().put("byron.thoughts", this.getProperty("Thoughts"));
+    } else {
+      System.getProperties().put("byron.thoughts", "5");
+    }
   } 
 
   public String getProperty(String property) {
@@ -216,7 +220,7 @@ public class GameController extends AbstractController {
         }
         over = true;
         break;
-      case 3:
+      case DRAW:
         setViewProperty("Status", "Sister kisser");
         over = true;
         break;
