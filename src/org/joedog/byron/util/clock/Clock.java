@@ -59,24 +59,24 @@ public class Clock implements Runnable {
   }
 
   public void run () {
-    while (timer != null) {
-      long left; 
+    try {
+      while (timer != null) {
+        long left; 
+  
+        now = System.currentTimeMillis();
+        count++;
 
-      now = System.currentTimeMillis();
-      count++;
+        for (ClockMonitor monitor: timers) {
+          monitor.tick(this);
+        }
 
-      for (ClockMonitor monitor: timers) {
-        monitor.tick(this);
-      }
-
-      last = now;
-      left = nap - System.currentTimeMillis() + now;      
-      if (left > 0 ){
-        try {
+        last = now;
+        left = nap - System.currentTimeMillis() + now;      
+        if (left > 0 ){
           Thread.sleep(left);
-        } catch(InterruptedException e) {}
+        }
       }
-    }
+    } catch(InterruptedException e) {}
     timer = null;
   }
 
@@ -87,5 +87,4 @@ public class Clock implements Runnable {
   public void removeClockMonitor (ClockMonitor monitor) {
     this.timers.remove(monitor);
   } 
-
 }
